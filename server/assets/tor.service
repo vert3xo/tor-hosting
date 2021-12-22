@@ -1,0 +1,18 @@
+[Unit]
+Description=Anonymizing overlay network for TCP (multi-instance-master)
+
+[Service]
+User=tor
+Group=tor
+Type=simple
+#RemainAfterExit=yes
+ExecStart=/usr/bin/tor -f /etc/tor/torrc --RunAsDaemon 0
+ExecReload=/usr/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -HUP $MAINPID
+
+KillSignal=SIGINT
+PIDFile=/var/run/tor/tor.pid
+
+[Install]
+WantedBy=multi-user.target
+
