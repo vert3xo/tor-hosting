@@ -11,8 +11,8 @@ type Database struct {
 	Gorm	*gorm.DB
 }
 
-func NewDatabase(user, password, dbName string) Database {
-	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", user, password, dbName)), &gorm.Config{})
+func NewDatabase(user, password, dbName, dbHost, dbPort string) Database {
+	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, dbHost, dbPort, dbName)), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
