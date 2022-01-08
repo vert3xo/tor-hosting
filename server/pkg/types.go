@@ -14,3 +14,7 @@ type Error struct {
 	Msg		string	`json:"msg"`
 	Code	int		`json:"code"`
 }
+
+type UserUpdateRequest struct {
+	Password	string	`json:"password"`
+}

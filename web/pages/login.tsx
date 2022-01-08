@@ -74,7 +74,9 @@ const Login = () => {
                   onBlur={props.handleBlur}
                 />
                 {props.errors.username && props.touched.username ? (
-                  <FormHelperText>{props.errors.username}</FormHelperText>
+                  <FormHelperText mb={4} color={"red"}>
+                    {props.errors.username}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
               <FormControl mb={4} id="password">
@@ -87,17 +89,19 @@ const Login = () => {
                   onBlur={props.handleBlur}
                 />
                 {props.errors.password && props.touched.password ? (
-                  <FormHelperText>{props.errors.password}</FormHelperText>
+                  <FormHelperText mb={4} color={"red"}>
+                    {props.errors.password}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
               <FormControl>
-                <FormHelperText mb={4} color="red" fontSize="18px">
+                <FormHelperText mb={4} color={"red"} fontSize={18}>
                   {errorText}
                 </FormHelperText>
               </FormControl>
               <Button
                 isLoading={isLoading}
-                colorScheme={"pink"}
+                colorScheme={"blue"}
                 width={"100%"}
                 type="submit"
               >

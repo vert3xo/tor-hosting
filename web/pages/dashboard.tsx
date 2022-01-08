@@ -10,8 +10,6 @@ import {
   Skeleton,
   Center,
   Heading,
-  Text,
-  Code,
   SimpleGrid,
   Container,
   Button,
@@ -21,26 +19,43 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Link,
-  HStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+  useDisclosure,
+  Input,
+  useToast,
 } from "@chakra-ui/react";
+import FormData from "form-data";
+import { errorToast, successToast } from "../types/toast";
+import UploadContent from "../components/UploadContent";
+import OnionStatus from "../components/OnionStatus";
+import HostnameContainer from "../components/HostnameContainer";
 
 const Dashboard = () => {
   const router = useRouter();
   const token = useAppSelector((state) => state.access_token.data) as string;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const onClose = () => setIsOpen(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const onAlertClose = () => setAlertOpen(false);
   const cancelRef = useRef<any>();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modalFocusRef = useRef<any>();
 
   const [isRegenerating, setIsRegenerating] = useState(false);
 
   const [username, setUsername] = useState("");
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<Status>(Status.Offline);
+
+  const [file, setFile] = useState<File | null>(null);
+
+  const toast = useToast();
 
   const fetchUserData = (token: string) => {
     Axios.get("/user", {
@@ -62,10 +77,64 @@ const Dashboard = () => {
   return (
     <Protected>
       <div>
+        <Modal finalFocusRef={modalFocusRef} isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Private key upload</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <form>
+                <Input
+                  border={"none"}
+                  type={"file"}
+                  onChange={(e) => {
+                    if (!!e.target.files && e.target.files.length !== 0)
+                      setFile(e.target.files[0]);
+                  }}
+                />
+                <Button
+                  type="submit"
+                  size={"sm"}
+                  colorScheme={"green"}
+                  mr={5}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (!!file) {
+                      const data = new FormData();
+                      data.append("key", file);
+                      Axios.post("/user/onion/upload", data, {
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                          "Content-Type": "multipart/form-data",
+                        },
+                      })
+                        .then((res) => {
+                          setFile(null);
+                        })
+                        .catch((e) => {
+                          toast({
+                            ...errorToast,
+                            description: "Key upload failed!",
+                          });
+                        });
+                    }
+                  }}
+                >
+                  Upload
+                </Button>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme={"red"} onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <AlertDialog
-          isOpen={isOpen}
+          isOpen={alertOpen}
           leastDestructiveRef={cancelRef}
-          onClose={onClose}
+          onClose={onAlertClose}
         >
           <AlertDialogOverlay>
             <AlertDialogContent>
@@ -76,7 +145,7 @@ const Dashboard = () => {
                 Are you sure? This can not be undone!
               </AlertDialogBody>
               <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
+                <Button ref={cancelRef} onClick={onAlertClose}>
                   Cancel
                 </Button>
                 <Button
@@ -94,12 +163,21 @@ const Dashboard = () => {
                     )
                       .then(() => {
                         fetchUserData(token);
-                        setIsRegenerating(false);
+                        toast({
+                          ...successToast,
+                          description:
+                            "Your .onion hostname has been regenerated.",
+                        });
                       })
                       .catch((e) => {
-                        // nothing
+                        toast({
+                          ...errorToast,
+                          description:
+                            "Regenerating your .onion hostname failed!",
+                        });
                       });
-                    onClose();
+                    setIsRegenerating(false);
+                    onAlertClose();
                   }}
                 >
                   Regenerate
@@ -116,35 +194,12 @@ const Dashboard = () => {
         </Center>
         <Center>
           <SimpleGrid columns={2} spacing={10}>
-            <Container centerContent>
-              <Text>
-                <b>Onion URL</b>
-              </Text>
-              <Skeleton isLoaded={!!url}>
-                <Code>{url}</Code>
-              </Skeleton>
-              <HStack mt={5}>
-                <Button
-                  colorScheme={"red"}
-                  size={"sm"}
-                  onClick={() => setIsOpen(true)}
-                >
-                  Regenerate
-                </Button>
-                <Button colorScheme={"green"} size={"sm"}>
-                  <Link href={`http://${url}/`}>Visit</Link>
-                </Button>
-              </HStack>
-            </Container>
-            <Container centerContent>
-              <Text>
-                <b>Onion Status</b>
-              </Text>
-              <Text color={status === Status.Online ? "green" : "red"}>
-                <b>{Status[status]}</b>
-              </Text>
-            </Container>
-            <Container centerContent>3</Container>
+            <HostnameContainer
+              onClick={() => setAlertOpen(true)}
+              hostname={url}
+            />
+            <OnionStatus status={status} />
+            <UploadContent token={token} />
             <Container centerContent>4</Container>
           </SimpleGrid>
         </Center>

@@ -13,7 +13,7 @@ import (
 )
 
 func SetupUser(username string) {
-	os.Mkdir(fmt.Sprintf("/var/www/%s", username), 0777)
+	os.Mkdir(fmt.Sprintf("%s/%s", constants.WEB_LOCATION, username), 0777)
 
 	writeTorFiles(username)
 	writeNginxFiles(username)
@@ -21,7 +21,7 @@ func SetupUser(username string) {
 
 func DeleteUser(username string) {
 	os.RemoveAll(fmt.Sprintf("%s/%s", constants.SERVICES_LOCATION, username))
-	os.Remove(fmt.Sprintf("%s/%s", constants.SERVICES_LOCATION, username))
+	os.RemoveAll(fmt.Sprintf("%s/%s", constants.WEB_LOCATION, username))
 	os.Remove(fmt.Sprintf("/etc/nginx/conf.d/%s.conf", username))
 	deleteFromTo("/etc/tor/torrc", fmt.Sprintf("#%s start block", username), fmt.Sprintf("#%s end block", username))
 	go RestartService("tor")
@@ -60,6 +60,30 @@ func writeTorFiles(username string) {
 
 		go RestartService("tor")
 	}
+}
+
+func ChownToCurrentUser(path string) error {
+	info, err := user.Current()
+	if err != nil {
+		return err
+	}
+
+	uid, err := strconv.Atoi(info.Uid)
+	if err != nil {
+		return err
+	}
+
+	gid, err := strconv.Atoi(info.Gid)
+	if err != nil {
+		return err
+	}
+
+	err = os.Chown(path, uid, gid)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func ChownToUser(path, username string) error {

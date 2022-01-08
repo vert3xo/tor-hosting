@@ -16,6 +16,7 @@ const Home = () => {
       >
         Set token
       </button>
+      <br />
       <span>Token: {token}</span>
     </div>
   );

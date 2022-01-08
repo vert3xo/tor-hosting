@@ -87,7 +87,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 
 		if (dbUser.Username == "" || bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password)) != nil) {
 			c.Status(fiber.ErrNotFound.Code)
-			return c.JSON(types.Response{Data: nil, Error: "User not found"})
+			return c.JSON(types.Response{Data: nil, Error: "Invalid credentials"})
 		}
 
 		access_token, _ := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{

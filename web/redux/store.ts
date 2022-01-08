@@ -3,24 +3,26 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { save, load, LoadOptions, RLSOptions } from "redux-localstorage-simple";
 import isServer from "../utils/isServer";
 import tokenReducer from "./token";
+import blogTokenReducer from "./blogToken";
+
+const reducer = {
+  access_token: tokenReducer,
+  blog_token: blogTokenReducer,
+};
 
 let store = configureStore({
-  reducer: {
-    access_token: tokenReducer,
-  },
+  reducer,
 });
 
 const options: LoadOptions | RLSOptions = {
-  states: ["access_token"],
+  states: ["access_token", "blog_token"],
   namespace: "torhost",
 };
 
 if (!isServer) {
   // @ts-ignore
   store = configureStore({
-    reducer: {
-      access_token: tokenReducer,
-    },
+    reducer,
     preloadedState: load(options),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().prepend(save(options)),
