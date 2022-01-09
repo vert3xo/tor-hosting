@@ -33,7 +33,7 @@ const Author = () => {
     if (router.isReady) {
       getAuthor({ variables: { id: parseInt(router.query.id as string) } });
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.id, getAuthor]);
 
   if (loading) {
     return (

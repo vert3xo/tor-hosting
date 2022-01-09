@@ -4,12 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Container, Heading, Text, Link, Flex } from "@chakra-ui/react";
 import { BsArrowRight } from "react-icons/bs";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { setToken } from "../../redux/blogToken";
 
 const Blog = () => {
-  const token = useAppSelector((state) => state.blog_token);
-  const dispatch = useAppDispatch();
   const { loading, error, data } = useQuery<{ posts: Post[] | null }>(gql`
     query GetPosts {
       posts {
@@ -68,7 +64,9 @@ const Blog = () => {
               by{" "}
               {post.authors!.map((author, index) => {
                 return (
-                  <Link href={`/blog/authors/${author.id}`}>{author.name}</Link>
+                  <Link key={index} href={`/blog/authors/${author.id}`}>
+                    {author.name}
+                  </Link>
                 );
               })}
             </Text>

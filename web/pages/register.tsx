@@ -25,6 +25,7 @@ const SignupSchema = Yup.object().shape({
     .required("Password is required!"),
   password_confirm: Yup.string()
     .min(8, "Password needs to be at least 8 characters long!")
+    .oneOf([Yup.ref("password")], "Passwords do not match!")
     .required("Password confirmation is required!"),
 });
 
@@ -109,7 +110,7 @@ const Register = () => {
                 {props.errors.password_confirm &&
                 props.touched.password_confirm ? (
                   <FormHelperText color="red">
-                    {props.errors.password}
+                    {props.errors.password_confirm}
                   </FormHelperText>
                 ) : null}
               </FormControl>

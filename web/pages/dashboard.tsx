@@ -29,6 +29,7 @@ import {
   useDisclosure,
   Input,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import FormData from "form-data";
 import { errorToast, successToast } from "../types/toast";
@@ -200,7 +201,11 @@ const Dashboard = () => {
             />
             <OnionStatus status={status} />
             <UploadContent token={token} />
-            <Container centerContent>4</Container>
+            <Container centerContent>
+              <Button colorScheme={"blue"}>
+                <Link href="/settings">Settings</Link>
+              </Button>
+            </Container>
           </SimpleGrid>
         </Center>
       </div>

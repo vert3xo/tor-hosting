@@ -6,10 +6,11 @@ import isServer from "../utils/isServer";
 
 const Logout = () => {
   const dispatch = useAppDispatch();
+  const { push } = useRouter();
 
   if (!isServer) {
     dispatch(setToken(null));
-    useRouter().push("/");
+    push("/");
   }
 
   return (

@@ -38,7 +38,7 @@ const Post = () => {
     if (router.isReady) {
       getPost({ variables: { id: parseInt(router.query.id as string) } });
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.id, getPost]);
 
   if (loading || loading === undefined) {
     return (
