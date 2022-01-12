@@ -15,7 +15,6 @@ const Protected: FC<{ navbar?: boolean }> = ({ children, navbar }) => {
     if (!token) {
       Axios.post("/refresh_token", {}, { withCredentials: true })
         .then((res) => {
-          console.log(res.data);
           dispatch(setToken(res.data.data));
           router.reload();
         })

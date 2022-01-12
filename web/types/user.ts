@@ -11,7 +11,9 @@ export type User = {
   Username: string;
   Password: string;
   Address: string;
+  Disabled: boolean;
   Status: Status;
+  Admin: boolean;
 };
 
 export enum Status {

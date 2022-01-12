@@ -25,12 +25,28 @@ const Navbar = () => {
         </Flex>
         <Spacer />
         <Flex mb={4}>
-          <Button mr={4} variant={"link"}>
-            <Link href="/blog/signin">Sign In</Link>
-          </Button>
-          <Button mr={4} colorScheme={"blue"}>
-            <Link href="/blog/signup">Sign Up</Link>
-          </Button>
+          {!token ? (
+            <>
+              <Button mr={4} variant={"link"}>
+                <Link href="/blog/login">Sign In</Link>
+              </Button>
+              <Button mr={4} colorScheme={"blue"}>
+                <Link href="/blog/register">Sign Up</Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button mr={4} colorScheme={"blue"}>
+                <Link href="/blog/post">Create a post</Link>
+              </Button>
+              <Button mr={4} variant={"link"}>
+                <Link href="/blog/profile">Profile</Link>
+              </Button>
+              <Button mr={4} variant={"link"}>
+                <Link href="/blog/logout">Log out</Link>
+              </Button>
+            </>
+          )}
         </Flex>
       </Flex>
     </Box>

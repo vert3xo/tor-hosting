@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { useAppDispatch } from "../redux/store";
 import { setToken } from "../redux/token";
+import { AxiosError } from "axios";
 
 const SigninSchema = Yup.object().shape({
   username: Yup.string().required("Username is required!"),
@@ -56,9 +57,13 @@ const Login = () => {
                   router.push("/dashboard");
                 }
               })
-              .catch((e) => {
+              .catch((e: AxiosError) => {
                 setLoading(false);
-                setErrorText(e.response.data.error || "An error occurred!");
+                if (!e.response || !e.response.data.error) {
+                  setErrorText("An error occurred!");
+                } else {
+                  setErrorText(e.response.data.error);
+                }
               });
           }}
         >

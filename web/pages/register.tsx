@@ -115,13 +115,13 @@ const Register = () => {
                 ) : null}
               </FormControl>
               {errorText ? (
-                <FormControl mb={4}>
+                <FormControl mb={4} color={"red"} fontSize={18}>
                   <FormHelperText color="red">{errorText}</FormHelperText>
                 </FormControl>
               ) : null}
               <Button
                 isLoading={isLoading}
-                colorScheme={"pink"}
+                colorScheme={"blue"}
                 width={"100%"}
                 type="submit"
               >

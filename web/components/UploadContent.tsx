@@ -46,7 +46,6 @@ const UploadContent: FC<Token> = ({ token }) => {
                   },
                 })
                   .then(() => {
-                    // TODO: something
                     toast({
                       ...successToast,
                       description:
@@ -54,7 +53,6 @@ const UploadContent: FC<Token> = ({ token }) => {
                     });
                   })
                   .catch((e) => {
-                    // TODO: error handling
                     toast({
                       ...errorToast,
                       description: "Could not upload your website.",

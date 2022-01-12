@@ -1,13 +1,31 @@
 import { Flex, Box, Spacer } from "@chakra-ui/layout";
 import Link from "next/link";
-import { Button, IconButton } from "@chakra-ui/button";
-import { FC } from "react";
+import { Button } from "@chakra-ui/button";
+import { FC, useState } from "react";
 import isServer from "../utils/isServer";
 import { useAppSelector } from "../redux/store";
 import ColorThemeChanger from "./ColorThemeChanger";
+import { Axios } from "../utils/axiosUtil";
+import { User } from "../types/user";
 
 const Navbar: FC<{}> = () => {
   const token = useAppSelector((state) => state.access_token.data);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  Axios.get("/user", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      const data: User = res.data.data;
+
+      setIsAdmin(data.Admin);
+    })
+    .catch((e) => {
+      // nothing, maybe assert false in `isAdmin`
+      setIsAdmin(false);
+    });
 
   return (
     <Box mt={4} mb={8} borderBottom={"2px solid gray"} width={"100vw"}>
@@ -40,6 +58,11 @@ const Navbar: FC<{}> = () => {
               <Button mr={4} colorScheme={"blue"}>
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
+              {isAdmin && (
+                <Button mr={4} variant={"link"}>
+                  <Link href="/admin">Admin</Link>
+                </Button>
+              )}
               <Button mr={4} variant={"link"}>
                 <Link href="/logout">Log out</Link>
               </Button>
