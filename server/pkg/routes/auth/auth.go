@@ -65,7 +65,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 				return c.Status(fiber.ErrInternalServerError.Code).JSON(types.Response{Data: nil, Error: err.Error()})
 			}
 
-			dbUser = &database.User{Username: user.Username, Password: string(hashed), Address: strings.Trim(string(address), "\n")}
+			dbUser = &database.User{Username: user.Username, Password: string(hashed), Address: strings.Trim(string(address), "\n"), Admin: false}
 
 			db.Create(&dbUser)
 
@@ -88,6 +88,10 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 		if (dbUser.Username == "" || bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password)) != nil) {
 			c.Status(fiber.ErrNotFound.Code)
 			return c.JSON(types.Response{Data: nil, Error: "Invalid credentials"})
+		}
+
+		if dbUser.Disabled {
+			return c.Status(fiber.ErrUnauthorized.Code).JSON(types.Response{Data: nil, Error: "Your account is disabled!"})
 		}
 
 		access_token, _ := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{

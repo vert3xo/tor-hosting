@@ -9,7 +9,9 @@ type User struct {
 	Username	string
 	Password	string
 	Address		string
-	Status		Status `gorm:"default:0"`
+	Disabled	bool	`gorm:"default:false"`
+	Status		Status	`gorm:"default:0"`
+	Admin		bool	`gorm:"default:false"`
 }
 
 const (

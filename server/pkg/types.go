@@ -18,3 +18,9 @@ type Error struct {
 type UserUpdateRequest struct {
 	Password	string	`json:"password"`
 }
+
+type CreateUserRequest struct {
+	Username	string	`json:"username"`
+	Password	string	`json:"password"`
+	Admin		bool	`json:"admin"`
+}

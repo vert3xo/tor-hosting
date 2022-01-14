@@ -11,18 +11,20 @@ const Protected: FC<{ navbar?: boolean }> = ({ children, navbar }) => {
   const token = useAppSelector((state) => state.access_token.data);
   const dispatch = useAppDispatch();
 
-  if (!isServer) {
-    if (!token) {
-      Axios.post("/refresh_token", {}, { withCredentials: true })
-        .then((res) => {
-          dispatch(setToken(res.data.data));
+  if (!token) {
+    Axios.post("/refresh_token", {}, { withCredentials: true })
+      .then((res) => {
+        dispatch(setToken(res.data.data));
+        if (!isServer) {
           router.reload();
-        })
-        .catch((e) => {
+        }
+      })
+      .catch((e) => {
+        if (!isServer) {
           router.push("/login");
-        });
-      return null;
-    }
+        }
+      });
+    return null;
   }
 
   return (

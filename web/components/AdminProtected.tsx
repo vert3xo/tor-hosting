@@ -14,6 +14,14 @@ const AdminProtected: FC = ({ children }) => {
   // assume true at first, change later
   const [isAdmin, setIsAdmin] = useState(true);
 
+  useEffect(() => {
+    if (!isAdmin) {
+      if (!isServer) {
+        router.push("/dashboard");
+      }
+    }
+  }, [isAdmin, router]);
+
   if (!token) {
     Axios.post("/refresh_token", {}, { withCredentials: true })
       .then((res) => {
@@ -44,14 +52,6 @@ const AdminProtected: FC = ({ children }) => {
         setIsAdmin(false);
       });
   }
-
-  useEffect(() => {
-    if (!isAdmin) {
-      if (!isServer) {
-        router.push("/dashboard");
-      }
-    }
-  }, [isAdmin]);
 
   return (
     <>

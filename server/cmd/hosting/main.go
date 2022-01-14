@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	constants "github.com/vert3xo/hosting-server/pkg/data"
 	"github.com/vert3xo/hosting-server/pkg/database"
 	"github.com/vert3xo/hosting-server/pkg/router"
 
@@ -18,6 +19,8 @@ func main() {
   if godotenv.Load() != nil {
     log.Fatal("Error loading .env file!")
   }
+
+  constants.ConstsInit()
 
   app := fiber.New()
   app.Use(cors.New(cors.Config{

@@ -9,12 +9,24 @@ import {
   ApolloProvider,
   HttpLink,
 } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const apolloClient = new ApolloClient({
+  const link = new HttpLink({
     uri: process.env.NEXT_PUBLIC_BLOG_URI,
+  });
+
+  const apolloClient = new ApolloClient({
+    // uri: process.env.NEXT_PUBLIC_BLOG_URI,
     cache: new InMemoryCache(),
     credentials: "include",
+    link: setContext((_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+        },
+      };
+    }).concat(link),
   });
 
   return (

@@ -4,7 +4,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import ColorThemeChanger from "../../../components/ColorThemeChanger";
 
 const Navbar = () => {
-  const token = useAppSelector((state) => state.blog_token);
+  const token = useAppSelector((state) => state.blog_token.data);
 
   return (
     <Box mt={4} mb={8} borderBottom={"2px solid gray"} width={"100vw"}>
@@ -40,7 +40,7 @@ const Navbar = () => {
                 <Link href="/blog/post">Create a post</Link>
               </Button>
               <Button mr={4} variant={"link"}>
-                <Link href="/blog/profile">Profile</Link>
+                <Link href={`/blog/authors/1`}>Profile</Link>
               </Button>
               <Button mr={4} variant={"link"}>
                 <Link href="/blog/logout">Log out</Link>
