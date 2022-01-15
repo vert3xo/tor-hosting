@@ -28,6 +28,7 @@ const Blog = () => {
       </>
     );
   }
+
   if (loading) {
     return (
       <>
@@ -49,30 +50,33 @@ const Blog = () => {
   return (
     <div>
       <Navbar />
-      {data!.posts.map((post, index) => {
-        return (
-          <Container key={index} ml={4}>
-            <Heading>
-              <Link href={`/blog/posts/${post.id}`}>
-                <Flex>
-                  <Text mr={4}>{post.title}</Text>
-                  <BsArrowRight />
-                </Flex>
-              </Link>
-            </Heading>
-            <Text>
-              by{" "}
-              {post.authors!.map((author, index) => {
-                return (
-                  <Link key={index} href={`/blog/authors/${author.id}`}>
-                    {author.name}
-                  </Link>
-                );
-              })}
-            </Text>
-          </Container>
-        );
-      })}
+      {data!.posts
+        .slice()
+        .reverse()
+        .map((post, index) => {
+          return (
+            <Container key={index} ml={4} pb={4}>
+              <Heading>
+                <Link href={`/blog/posts/${post.id}`}>
+                  <Flex>
+                    <Text mr={4}>{post.title}</Text>
+                    <BsArrowRight />
+                  </Flex>
+                </Link>
+              </Heading>
+              <Text>
+                by{" "}
+                {post.authors!.map((author, index) => {
+                  return (
+                    <Link key={index} href={`/blog/authors/${author.id}`}>
+                      {author.name}
+                    </Link>
+                  );
+                })}
+              </Text>
+            </Container>
+          );
+        })}
     </div>
   );
 };

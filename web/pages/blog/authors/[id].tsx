@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import {
   Container,
   Divider,
@@ -6,20 +6,25 @@ import {
   Link,
   Text,
   Flex,
+  Button,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { BsArrowRight } from "react-icons/bs";
+import { useAppSelector } from "../../../redux/store";
 import type { Author as AuthorType } from "../../../types/Author";
+import isServer from "../../../utils/isServer";
 import Navbar from "../components/Navbar";
 
 const Author = () => {
   const router = useRouter();
-  const [getAuthor, { loading, error, data }] = useLazyQuery<{
+  const token = useAppSelector((state) => state.blog_token.data);
+  const [getAuthor, getAuthorData] = useLazyQuery<{
     author: AuthorType | null;
   }>(gql`
     query GetAuthor($id: Int!) {
       author(id: $id) {
+        id
         name
         posts {
           id
@@ -29,13 +34,24 @@ const Author = () => {
     }
   `);
 
+  const [mutateDeletePost, deletePostData] = useMutation<{
+    deletePost: boolean;
+  }>(
+    gql`
+      mutation DeletePost($id: Int!) {
+        deletePost(id: $id)
+      }
+    `,
+    { context: { headers: { Authorization: `Bearer ${token}` } } }
+  );
+
   useEffect(() => {
     if (router.isReady) {
       getAuthor({ variables: { id: parseInt(router.query.id as string) } });
     }
   }, [router.isReady, router.query.id, getAuthor]);
 
-  if (loading) {
+  if (getAuthorData.loading) {
     return (
       <>
         <Navbar />
@@ -44,16 +60,16 @@ const Author = () => {
     );
   }
 
-  if (!!error) {
+  if (!!getAuthorData.error) {
     return (
       <>
         <Navbar />
-        <Text>{JSON.stringify(error)}</Text>
+        <Text>{JSON.stringify(getAuthorData.error)}</Text>
       </>
     );
   }
 
-  if (!data || !data.author) {
+  if (!getAuthorData.data || !getAuthorData.data.author) {
     return (
       <>
         <Navbar />
@@ -67,28 +83,48 @@ const Author = () => {
       <Navbar />
       <Container>
         <Container>
-          <Heading>{data.author.name}</Heading>
+          <Heading>{getAuthorData.data.author.name}</Heading>
           <Text>
-            {data.author!.posts!.length} post
-            {data.author!.posts!.length > 1 ? "s" : ""}
+            {getAuthorData.data.author!.posts!.length} post
+            {getAuthorData.data.author!.posts!.length > 1 ? "s" : ""}
           </Text>
         </Container>
         <Divider mt={4} mb={4} w={"95%"} />
         <Container>
-          {data.author!.posts!.map((post, index) => {
-            return (
-              <Container key={index} mb={4}>
-                <Heading size={"md"}>
-                  <Link href={`/blog/posts/${post.id}`}>
-                    <Flex>
-                      <Text mr={4}>{post.title}</Text>
-                      <BsArrowRight />
+          {getAuthorData.data
+            .author!.posts!.slice()
+            .reverse()
+            .map((post, index) => {
+              return (
+                <Container key={index} mb={4}>
+                  <Heading size={"md"}>
+                    <Flex justifyContent={"space-between"}>
+                      <Link href={`/blog/posts/${post.id}`}>
+                        <Flex>
+                          <Text mr={4}>{post.title}</Text>
+                          <BsArrowRight />
+                        </Flex>
+                      </Link>
+                      {router.query.id == getAuthorData.data!.author!.id && (
+                        <Button
+                          colorScheme={"red"}
+                          size={"sm"}
+                          isLoading={deletePostData.loading}
+                          onClick={() => {
+                            mutateDeletePost({ variables: { id: post.id! } });
+                            if (!isServer) {
+                              router.reload();
+                            }
+                          }}
+                        >
+                          Delete Post
+                        </Button>
+                      )}
                     </Flex>
-                  </Link>
-                </Heading>
-              </Container>
-            );
-          })}
+                  </Heading>
+                </Container>
+              );
+            })}
         </Container>
       </Container>
     </div>

@@ -2,9 +2,24 @@ import { useAppSelector } from "../../../redux/store";
 import { Box, Button, Flex, Link, Spacer, Text } from "@chakra-ui/react";
 import { BsArrowLeft } from "react-icons/bs";
 import ColorThemeChanger from "../../../components/ColorThemeChanger";
+import { gql, useQuery } from "@apollo/client";
+import { User } from "../../../types/User";
 
 const Navbar = () => {
   const token = useAppSelector((state) => state.blog_token.data);
+
+  const { loading, error, data } = useQuery<{ me: User }>(
+    gql`
+      query GetUserInfo {
+        me {
+          author {
+            id
+          }
+        }
+      }
+    `,
+    { context: { headers: { Authorization: `Bearer ${token}` } } }
+  );
 
   return (
     <Box mt={4} mb={8} borderBottom={"2px solid gray"} width={"100vw"}>
@@ -39,9 +54,13 @@ const Navbar = () => {
               <Button mr={4} colorScheme={"blue"}>
                 <Link href="/blog/post">Create a post</Link>
               </Button>
-              <Button mr={4} variant={"link"}>
-                <Link href={`/blog/authors/1`}>Profile</Link>
-              </Button>
+              {!loading && !error && (
+                <Button mr={4} variant={"link"}>
+                  <Link href={`/blog/authors/${data!.me!.author!.id!}`}>
+                    Profile
+                  </Link>
+                </Button>
+              )}
               <Button mr={4} variant={"link"}>
                 <Link href="/blog/logout">Log out</Link>
               </Button>

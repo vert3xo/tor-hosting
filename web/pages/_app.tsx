@@ -12,12 +12,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const link = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_BLOG_URI,
-  });
-
   const apolloClient = new ApolloClient({
-    // uri: process.env.NEXT_PUBLIC_BLOG_URI,
     cache: new InMemoryCache(),
     credentials: "include",
     link: setContext((_, { headers }) => {
@@ -26,7 +21,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...headers,
         },
       };
-    }).concat(link),
+    }).concat(
+      new HttpLink({
+        uri: process.env.NEXT_PUBLIC_BLOG_URI,
+      })
+    ),
   });
 
   return (

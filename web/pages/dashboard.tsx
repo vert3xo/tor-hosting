@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import Protected from "../components/Protected";
 import { useAppSelector } from "../redux/store";
-import { Status } from "../types/user";
-import type { Response, User } from "../types/user";
+import { Status } from "../types/userTypes";
+import type { Response, User } from "../types/userTypes";
 import { Axios } from "../utils/axiosUtil";
 import isServer from "../utils/isServer";
 import {

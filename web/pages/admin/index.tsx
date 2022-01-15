@@ -18,7 +18,7 @@ import router, { useRouter } from "next/router";
 import { useState } from "react";
 import AdminProtected from "../../components/AdminProtected";
 import { useAppSelector } from "../../redux/store";
-import { Response, User } from "../../types/user";
+import { Response, User } from "../../types/userTypes";
 import isServer from "../../utils/isServer";
 
 const Admin = () => {

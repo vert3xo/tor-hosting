@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { Token } from "../types/tokenComponent";
 import { Container, Text } from "@chakra-ui/react";
-import { Status } from "../types/user";
+import { Status } from "../types/userTypes";
 
 const OnionStatus: FC<{ status: Status }> = ({ status }) => {
   return (

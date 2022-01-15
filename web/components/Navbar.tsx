@@ -6,7 +6,7 @@ import isServer from "../utils/isServer";
 import { useAppSelector } from "../redux/store";
 import ColorThemeChanger from "./ColorThemeChanger";
 import { Axios } from "../utils/axiosUtil";
-import { User } from "../types/user";
+import { User } from "../types/userTypes";
 
 const Navbar: FC<{}> = () => {
   const token = useAppSelector((state) => state.access_token.data);

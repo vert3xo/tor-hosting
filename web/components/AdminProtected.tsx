@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { setToken } from "../redux/blogToken";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { User } from "../types/user";
+import { User } from "../types/userTypes";
 import { Axios } from "../utils/axiosUtil";
 import isServer from "../utils/isServer";
 import Navbar from "./Navbar";
