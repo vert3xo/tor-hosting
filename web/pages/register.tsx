@@ -1,3 +1,5 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { Center } from "@chakra-ui/layout";
@@ -14,22 +16,23 @@ import isServer from "../utils/isServer";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
-
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, "Username too short!")
-    .max(32, "Username too long!")
-    .required("Username is required!"),
-  password: Yup.string()
-    .min(8, "Password needs to be at least 8 characters long!")
-    .required("Password is required!"),
-  password_confirm: Yup.string()
-    .min(8, "Password needs to be at least 8 characters long!")
-    .oneOf([Yup.ref("password")], "Passwords do not match!")
-    .required("Password confirmation is required!"),
-});
+import { useTranslation } from "next-i18next";
 
 const Register = () => {
+  const { t } = useTranslation("common");
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t("username-short"))
+      .max(32, t("username-long"))
+      .required(t("username-required")),
+    password: Yup.string()
+      .min(8, t("password-length"))
+      .required(t("password-required")),
+    password_confirm: Yup.string()
+      .oneOf([Yup.ref("password")], t("password-conf-match"))
+      .required(t("password-conf-required")),
+  });
+
   const router = useRouter();
 
   const [isLoading, setLoading] = useState(false);
@@ -39,7 +42,7 @@ const Register = () => {
     <div>
       <Navbar />
       <Center flexDir="column">
-        <Heading mb={8}>Registration</Heading>
+        <Heading mb={8}>{t("registration")}</Heading>
         <Formik
           initialValues={{ username: "", password: "", password_confirm: "" }}
           validationSchema={SignupSchema}
@@ -69,7 +72,7 @@ const Register = () => {
           {(props) => (
             <Form style={{ width: "30%" }}>
               <FormControl mb={4} id="username">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t("username")}</FormLabel>
                 <Input
                   type="text"
                   name="username"
@@ -84,7 +87,7 @@ const Register = () => {
                 ) : null}
               </FormControl>
               <FormControl mb={4} id="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <Input
                   type="password"
                   name="password"
@@ -99,7 +102,7 @@ const Register = () => {
                 ) : null}
               </FormControl>
               <FormControl mb={4} id="password_confirm">
-                <FormLabel>Password confirmation</FormLabel>
+                <FormLabel>{t("password-conf")}</FormLabel>
                 <Input
                   type="password"
                   name="password_confirm"
@@ -136,3 +139,14 @@ const Register = () => {
 };
 
 export default Register;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

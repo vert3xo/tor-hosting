@@ -1,3 +1,5 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
   Center,
   Switch,
@@ -14,14 +16,16 @@ import {
   Button,
 } from "@chakra-ui/react";
 import axios from "axios";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import AdminProtected from "../../components/AdminProtected";
 import { useAppSelector } from "../../redux/store";
 import { Response, User } from "../../types/userTypes";
 import isServer from "../../utils/isServer";
+import { useTranslation } from "next-i18next";
 
 const Admin = () => {
+  const { t } = useTranslation("common");
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -59,10 +63,10 @@ const Admin = () => {
             <Table variant={"simple"}>
               <Thead>
                 <Tr>
-                  <Th>Username</Th>
-                  <Th>Enabled</Th>
-                  <Th>Change Password</Th>
-                  <Th>Delete</Th>
+                  <Th>{t("username")}</Th>
+                  <Th>{t("enabled")}</Th>
+                  <Th>{t("change-password")}</Th>
+                  <Th>{t("delete")}</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -90,7 +94,7 @@ const Admin = () => {
                           <Flex>
                             <Input
                               type="password"
-                              placeholder="Password"
+                              placeholder={t("new-pwd-placeholder")}
                               value={passwords[index]}
                               onChange={(e) => {
                                 passwords[index] = e.currentTarget.value;
@@ -114,7 +118,7 @@ const Admin = () => {
                                   });
                               }}
                             >
-                              Change
+                              {t("new-pwd-btn")}
                             </Button>
                           </Flex>
                         </FormControl>
@@ -132,7 +136,7 @@ const Admin = () => {
                               .catch((e) => {});
                           }}
                         >
-                          Delete account
+                          {t("delete-account")}
                         </Button>
                       </Td>
                     </Tr>
@@ -148,3 +152,14 @@ const Admin = () => {
 };
 
 export default Admin;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

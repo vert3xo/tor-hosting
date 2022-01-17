@@ -10,6 +10,9 @@ import {
   HttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { appWithTranslation } from "next-i18next";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = new ApolloClient({
@@ -38,4 +41,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </Provider>
   );
 }
-export default MyApp;
+export default appWithTranslation(MyApp);

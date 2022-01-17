@@ -1,0 +1,32 @@
+{
+  "token": "Set Token",
+
+  "username-short": "Používateľské meno je príliš krátke!",
+  "username-long": "Používateľské meno je príliš dlhé!",
+  "username-required": "Používateľské meno je povinné!",
+  "password-length": "Helo musí mať aspoň 8 znakov!",
+  "password-required": "Heslo je povinné!",
+  "password-conf-match": "Heslá sa nezhodujú!",
+  "password-conf-required": "Potvrdenie hesla je povinné!",
+
+  "settings": "Nastavenia",
+  "change-password": "Zmena hesla",
+  "username": "Používateľské meno",
+  "password": "Heslo",
+  "password-conf": "Potvrdenie hesla",
+  "danger-zone": "Danger Zone",
+  "delete-account": "Vymazanie účtu",
+
+  "log-in": "Prihlásenie",
+  "registration": "Registrácia",
+  "sign-in": "Prihlásiť sa",
+
+  "regenerate-address": "Znovu vygenerovať onion adresu",
+  "choice-confirm": "Si si istý, že chceš pokračovať? Táto akcia sa nedá vrátiť!",
+  "welcome": "Vitaj",
+
+  "enabled": "Aktívne",
+  "delete": "Vymazať",
+  "new-pwd-placeholder": "Nové heslo",
+  "new-pwd-btn": "Zmeniť"
+}

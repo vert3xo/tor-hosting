@@ -7,10 +7,12 @@ import { useAppSelector } from "../redux/store";
 import ColorThemeChanger from "./ColorThemeChanger";
 import { Axios } from "../utils/axiosUtil";
 import { User } from "../types/userTypes";
+import { useTranslation } from "next-i18next";
 
-const Navbar: FC<{}> = () => {
+const Navbar: FC = () => {
   const token = useAppSelector((state) => state.access_token.data);
   const [isAdmin, setIsAdmin] = useState(false);
+  const { t } = useTranslation("navbar-main");
 
   Axios.get("/user", {
     headers: {
@@ -32,13 +34,13 @@ const Navbar: FC<{}> = () => {
       <Flex width={"100%"}>
         <Flex>
           <Button ml={4} variant={"link"}>
-            <Link href="/">Home</Link>
+            <Link href="/">{t("home")}</Link>
           </Button>
           <Button ml={4} variant={"link"}>
-            <Link href="/about">About</Link>
+            <Link href="/about">{t("about")}</Link>
           </Button>
           <Button ml={4} variant={"link"}>
-            <Link href="/blog">Blog</Link>
+            <Link href="/blog">{t("blog")}</Link>
           </Button>
           <ColorThemeChanger />
         </Flex>
@@ -47,24 +49,24 @@ const Navbar: FC<{}> = () => {
           {!isServer && !token ? (
             <>
               <Button mr={4} variant={"link"}>
-                <Link href="/login">Sign in</Link>
+                <Link href="/login">{t("sign-in")}</Link>
               </Button>
               <Button mr={4} colorScheme={"blue"}>
-                <Link href="/register">Sign up</Link>
+                <Link href="/register">{t("sign-up")}</Link>
               </Button>
             </>
           ) : (
             <>
               <Button mr={4} colorScheme={"blue"}>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/dashboard">{t("dashboard")}</Link>
               </Button>
               {isAdmin && (
                 <Button mr={4} variant={"link"}>
-                  <Link href="/admin">Admin</Link>
+                  <Link href="/admin">{t("admin")}</Link>
                 </Button>
               )}
               <Button mr={4} variant={"link"}>
-                <Link href="/logout">Log out</Link>
+                <Link href="/logout">{t("log-out")}</Link>
               </Button>
             </>
           )}

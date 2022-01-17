@@ -10,15 +10,17 @@ import {
 } from "@chakra-ui/react";
 import { successToast, errorToast } from "../types/toast";
 import { Token } from "../types/tokenComponent";
+import { useTranslation } from "next-i18next";
 
 const UploadContent: FC<Token> = ({ token }) => {
+  const { t } = useTranslation("upload-content");
   const toast = useToast();
   const [siteArchive, setSiteArchive] = useState<File | null>(null);
 
   return (
     <Container centerContent>
       <Text mb={"5"}>
-        <b>Upload site contents as a ZIP archive</b>
+        <b>{t("upload-heading")}</b>
       </Text>
       <form action="#">
         <HStack>
@@ -61,7 +63,7 @@ const UploadContent: FC<Token> = ({ token }) => {
               }
             }}
           >
-            Upload
+            {t("upload-btn")}
           </Button>
         </HStack>
       </form>

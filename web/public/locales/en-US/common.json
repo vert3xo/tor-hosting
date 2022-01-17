@@ -1,0 +1,33 @@
+{
+  "token": "Set Token",
+
+  "username-short": "Username is too short!",
+  "username-long": "Username is too long!",
+  "username-required": "Username is required!",
+  "password-length": "Password needs to be at least 8 characters long!",
+  "password-required": "Password is required!",
+  "password-conf-match": "Passwords do not match!",
+  "password-conf-required": "Password confirmation is required!",
+
+  "settings": "Settings",
+  "change-password": "Change Password",
+  "username": "Username",
+  "password": "Password",
+  "password-conf": "Password Confirmation",
+  "danger-zone": "Danger Zone",
+  "delete-account": "Delete Account",
+
+  "log-in": "Log In",
+  "registration": "Registration",
+  "sign-in": "Sign In",
+
+  "regenerate-address": "Regenerate your onion address",
+  "choice-confirm": "Are you sure? This can not be undone!",
+  "welcome": "Welcome",
+
+  "enabled": "Enabled",
+  "delete": "Delete",
+  "new-pwd-placeholder": "New password",
+  "new-pwd-btn": "Change",
+  "delete-btn": "Delete account"
+}

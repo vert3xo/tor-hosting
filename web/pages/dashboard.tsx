@@ -1,5 +1,7 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Protected from "../components/Protected";
 import { useAppSelector } from "../redux/store";
 import { Status } from "../types/userTypes";
@@ -36,8 +38,11 @@ import { errorToast, successToast } from "../types/toast";
 import UploadContent from "../components/UploadContent";
 import OnionStatus from "../components/OnionStatus";
 import HostnameContainer from "../components/HostnameContainer";
+import { useTranslation } from "next-i18next";
 
 const Dashboard = () => {
+  const { t } = useTranslation("common");
+
   const router = useRouter();
   const token = useAppSelector((state) => state.access_token.data) as string;
 
@@ -78,7 +83,7 @@ const Dashboard = () => {
   return (
     <Protected>
       <div>
-        <Modal finalFocusRef={modalFocusRef} isOpen={isOpen} onClose={onClose}>
+        {/* <Modal finalFocusRef={modalFocusRef} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Private key upload</ModalHeader>
@@ -131,7 +136,7 @@ const Dashboard = () => {
               </Button>
             </ModalFooter>
           </ModalContent>
-        </Modal>
+        </Modal> */}
         <AlertDialog
           isOpen={alertOpen}
           leastDestructiveRef={cancelRef}
@@ -140,11 +145,9 @@ const Dashboard = () => {
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize={"lg"} fontWeight={"bold"}>
-                Regenerate your onion address
+                {t("regenerate-address")}
               </AlertDialogHeader>
-              <AlertDialogBody>
-                Are you sure? This can not be undone!
-              </AlertDialogBody>
+              <AlertDialogBody>{t("choice-confirm")}</AlertDialogBody>
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={onAlertClose}>
                   Cancel
@@ -190,7 +193,9 @@ const Dashboard = () => {
         {fetchUserData(token)}
         <Center paddingBottom={20}>
           <Skeleton isLoaded={!!username}>
-            <Heading>Welcome {username}</Heading>
+            <Heading>
+              {t("welcome")} {username}
+            </Heading>
           </Skeleton>
         </Center>
         <Center>
@@ -203,7 +208,7 @@ const Dashboard = () => {
             <UploadContent token={token} />
             <Container centerContent>
               <Button colorScheme={"blue"}>
-                <Link href="/settings">Settings</Link>
+                <Link href="/settings">{t("settings")}</Link>
               </Button>
             </Container>
           </SimpleGrid>
@@ -214,3 +219,17 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+        "upload-content",
+        "onion-status",
+        "hostname-data",
+      ])),
+    },
+  };
+};

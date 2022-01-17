@@ -1,4 +1,5 @@
-import React from "react";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
   FormControl,
   FormLabel,
@@ -18,13 +19,16 @@ import { Formik, Form } from "formik";
 import { useAppDispatch } from "../redux/store";
 import { setToken } from "../redux/token";
 import { AxiosError } from "axios";
-
-const SigninSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required!"),
-  password: Yup.string().required("Password is required!"),
-});
+import { useTranslation } from "next-i18next";
 
 const Login = () => {
+  const { t } = useTranslation("common");
+
+  const SigninSchema = Yup.object().shape({
+    username: Yup.string().required(t("username-required")),
+    password: Yup.string().required(t("password-required")),
+  });
+
   const router = useRouter();
 
   const [isLoading, setLoading] = useState(false);
@@ -36,7 +40,7 @@ const Login = () => {
     <div>
       <Navbar />
       <Center flexDir="column">
-        <Heading mb={8}>Log In</Heading>
+        <Heading mb={8}>{t("log-in")}</Heading>
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={SigninSchema}
@@ -70,7 +74,7 @@ const Login = () => {
           {(props) => (
             <Form style={{ width: "30%" }}>
               <FormControl mb={4} id="username">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t("username")}</FormLabel>
                 <Input
                   type="text"
                   name="username"
@@ -85,7 +89,7 @@ const Login = () => {
                 ) : null}
               </FormControl>
               <FormControl mb={4} id="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <Input
                   type="password"
                   name="password"
@@ -110,7 +114,7 @@ const Login = () => {
                 width={"100%"}
                 type="submit"
               >
-                Sign In
+                {t("sign-in")}
               </Button>
             </Form>
           )}
@@ -121,3 +125,14 @@ const Login = () => {
 };
 
 export default Login;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

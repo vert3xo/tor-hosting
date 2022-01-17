@@ -1,3 +1,5 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
   Center,
   Container,
@@ -20,6 +22,7 @@ import { errorToast, successToast } from "../types/toast";
 import { Axios } from "../utils/axiosUtil";
 import isServer from "../utils/isServer";
 import * as Yup from "yup";
+import { useTranslation } from "next-i18next";
 
 const Settings = () => {
   const token = useAppSelector((state) => state.access_token);
@@ -27,27 +30,27 @@ const Settings = () => {
   const { push } = useRouter();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
-  //   const [errorText, setErrorText] = useState("")
+  const { t } = useTranslation("common");
 
   const passwordChangeSchema = Yup.object().shape({
     password: Yup.string()
-      .min(8, "Password needs to be at least 8 characters long!")
-      .required("Password is required!"),
+      .min(8, t("password-length"))
+      .required(t("password-required")),
     password_confirm: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords do not match!")
-      .required("Password confirmation is required!"),
+      .oneOf([Yup.ref("password")], t("password-conf-match"))
+      .required(t("password-conf-required")),
   });
 
   return (
     <Protected>
       <Container>
         <Center flexDir={"column"}>
-          <Heading>Settings</Heading>
+          <Heading>{t("settings")}</Heading>
           <Divider mt={4} mb={4} />
         </Center>
         <Container>
           <Heading mb={4} size={"md"}>
-            Change password
+            {t("change-password")}
           </Heading>
           <Formik
             initialValues={{ password: "", password_confirm: "" }}
@@ -85,7 +88,7 @@ const Settings = () => {
             {(props) => (
               <Form>
                 <FormControl mb={4}>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("password")}</FormLabel>
                   <Input
                     type="password"
                     name="password"
@@ -100,7 +103,7 @@ const Settings = () => {
                   ) : null}
                 </FormControl>
                 <FormControl mb={4}>
-                  <FormLabel>Password confirmation</FormLabel>
+                  <FormLabel>{t("password-conf")}</FormLabel>
                   <Input
                     type="password"
                     name="password_confirm"
@@ -116,7 +119,7 @@ const Settings = () => {
                   ) : null}
                 </FormControl>
                 <Button colorScheme={"red"} width={"100%"} type="submit">
-                  Change password
+                  {t("change-password")}
                 </Button>
               </Form>
             )}
@@ -124,7 +127,7 @@ const Settings = () => {
           <Divider mt={4} mb={4} />
         </Container>
         <Container border={"1px solid darkred"} borderRadius={10} padding={5}>
-          <Heading size={"md"}>Danger zone</Heading>
+          <Heading size={"md"}>{t("danger-zone")}</Heading>
           <Container pt={4}>
             <Flex>
               <Button
@@ -153,7 +156,7 @@ const Settings = () => {
                   }
                 }}
               >
-                Delete account
+                {t("delete-account")}
               </Button>
             </Flex>
           </Container>
@@ -164,3 +167,14 @@ const Settings = () => {
 };
 
 export default Settings;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};
