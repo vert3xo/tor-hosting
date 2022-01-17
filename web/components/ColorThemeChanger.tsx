@@ -8,7 +8,9 @@ const ColorThemeChanger = () => {
     <IconButton
       aria-label={`Toggle ${colorMode === "dark" ? "light" : "dark"} mode`}
       icon={colorMode === "dark" ? <BsSun /> : <BsMoonFill />}
-      ml={4}
+      mr={2}
+      ml={2}
+      mb={2}
       size={"lg"}
       variant={"link"}
       onClick={toggleColorMode}
