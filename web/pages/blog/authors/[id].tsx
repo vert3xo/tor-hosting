@@ -1,4 +1,4 @@
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import {
   Container,
   Divider,
@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { useAppSelector } from "../../../redux/store";
 import type { Author as AuthorType } from "../../../types/Author";
+import { User } from "../../../types/User";
 import isServer from "../../../utils/isServer";
 import Navbar from "../components/Navbar";
 
@@ -40,6 +41,17 @@ const Author = () => {
     gql`
       mutation DeletePost($id: Int!) {
         deletePost(id: $id)
+      }
+    `,
+    { context: { headers: { Authorization: `Bearer ${token}` } } }
+  );
+
+  const userData = useQuery<{ me: User }>(
+    gql`
+      query GetUser {
+        me {
+          id
+        }
       }
     `,
     { context: { headers: { Authorization: `Bearer ${token}` } } }
@@ -105,21 +117,24 @@ const Author = () => {
                           <BsArrowRight />
                         </Flex>
                       </Link>
-                      {router.query.id == getAuthorData.data!.author!.id && (
-                        <Button
-                          colorScheme={"red"}
-                          size={"sm"}
-                          isLoading={deletePostData.loading}
-                          onClick={() => {
-                            mutateDeletePost({ variables: { id: post.id! } });
-                            if (!isServer) {
-                              router.reload();
-                            }
-                          }}
-                        >
-                          Delete Post
-                        </Button>
-                      )}
+                      {token &&
+                        userData.data &&
+                        userData.data.me!.id! ==
+                          getAuthorData.data!.author!.id && (
+                          <Button
+                            colorScheme={"red"}
+                            size={"sm"}
+                            isLoading={deletePostData.loading}
+                            onClick={() => {
+                              mutateDeletePost({ variables: { id: post.id! } });
+                              if (!isServer) {
+                                router.reload();
+                              }
+                            }}
+                          >
+                            Delete Post
+                          </Button>
+                        )}
                     </Flex>
                   </Heading>
                 </Container>
