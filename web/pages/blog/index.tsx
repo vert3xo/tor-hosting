@@ -7,6 +7,7 @@ import React from "react";
 import { Container, Heading, Text, Link, Flex } from "@chakra-ui/react";
 import { BsArrowRight } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
+import PageHead from "../../components/PageHead";
 
 const Blog = () => {
   const { t } = useTranslation("common");
@@ -53,6 +54,7 @@ const Blog = () => {
 
   return (
     <div>
+      <PageHead title="Home" />
       <Navbar />
       {data!.posts
         .slice()

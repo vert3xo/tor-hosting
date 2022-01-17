@@ -1,5 +1,11 @@
 {
-  "token": "Set Token",
+  "home-heading": "Tor Hosting",
+  "home-p1": "Website that makes hosting hidden services easy",
+  "home-p2": "Get started by clicking on the button bellow",
+  "btn-start": "Get Started",
+
+  "about-heading": "About",
+  "about-p1": "This website provides a free hosting solution for Tor hidden services",
 
   "username-short": "Username is too short!",
   "username-long": "Username is too long!",

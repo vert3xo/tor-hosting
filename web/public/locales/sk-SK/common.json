@@ -1,5 +1,11 @@
 {
-  "token": "Set Token",
+  "home-heading": "Tor Hosting",
+  "home-p1": "Služba, ktorá robí hosting Tor stránok jednoduchým",
+  "home-p2": "Začni kliknutím na tlačidlo nižšie",
+  "btn-start": "Začať",
+
+  "about-heading": "O stránke",
+  "about-p1": "Táto stránka poskytuje bezplatné riešenie na hosting stránok v Tor sieti",
 
   "username-short": "Používateľské meno je príliš krátke!",
   "username-long": "Používateľské meno je príliš dlhé!",

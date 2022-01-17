@@ -23,6 +23,7 @@ import { Axios } from "../utils/axiosUtil";
 import isServer from "../utils/isServer";
 import * as Yup from "yup";
 import { useTranslation } from "next-i18next";
+import PageHead from "../components/PageHead";
 
 const Settings = () => {
   const token = useAppSelector((state) => state.access_token);
@@ -43,6 +44,7 @@ const Settings = () => {
 
   return (
     <Protected>
+      <PageHead title="Settings" />
       <Container>
         <Center flexDir={"column"}>
           <Heading>{t("settings")}</Heading>

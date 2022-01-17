@@ -11,8 +11,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { appWithTranslation } from "next-i18next";
-import { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import PageHead from "../components/PageHead";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = new ApolloClient({
@@ -35,6 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <ApolloProvider client={apolloClient}>
         <ChakraProvider>
+          <PageHead />
           <Component {...pageProps} />
         </ChakraProvider>
       </ApolloProvider>

@@ -17,6 +17,7 @@ import type { Register as RegisterType } from "../../types/Register";
 import isServer from "../../utils/isServer";
 import Navbar from "./components/Navbar";
 import { useTranslation } from "next-i18next";
+import PageHead from "../../components/PageHead";
 
 const Register = () => {
   const { t } = useTranslation("common");
@@ -56,6 +57,7 @@ const Register = () => {
 
   return (
     <div>
+      <PageHead title="Registration" />
       <Navbar />
       <Center flexDirection={"column"}>
         <Heading mb={8}>{t("registration")}</Heading>

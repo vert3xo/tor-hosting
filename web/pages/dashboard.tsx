@@ -39,6 +39,7 @@ import UploadContent from "../components/UploadContent";
 import OnionStatus from "../components/OnionStatus";
 import HostnameContainer from "../components/HostnameContainer";
 import { useTranslation } from "next-i18next";
+import PageHead from "../components/PageHead";
 
 const Dashboard = () => {
   const { t } = useTranslation("common");
@@ -82,6 +83,7 @@ const Dashboard = () => {
 
   return (
     <Protected>
+      <PageHead title="Dashboard" />
       <div>
         {/* <Modal finalFocusRef={modalFocusRef} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />

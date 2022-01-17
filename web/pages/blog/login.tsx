@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import isServer from "../../utils/isServer";
 import { setToken } from "../../redux/blogToken";
 import { useTranslation } from "next-i18next";
+import PageHead from "../../components/PageHead";
 
 const Login = () => {
   const { t } = useTranslation("common");
@@ -45,6 +46,7 @@ const Login = () => {
 
   return (
     <div>
+      <PageHead title="Log in" />
       <Navbar />
       <Center flexDir={"column"}>
         <Formik

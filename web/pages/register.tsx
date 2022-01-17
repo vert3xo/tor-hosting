@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { useTranslation } from "next-i18next";
+import PageHead from "../components/PageHead";
 
 const Register = () => {
   const { t } = useTranslation("common");
@@ -40,6 +41,7 @@ const Register = () => {
 
   return (
     <div>
+      <PageHead title="Registration" />
       <Navbar />
       <Center flexDir="column">
         <Heading mb={8}>{t("registration")}</Heading>

@@ -23,6 +23,7 @@ import { useAppSelector } from "../../redux/store";
 import { Response, User } from "../../types/userTypes";
 import isServer from "../../utils/isServer";
 import { useTranslation } from "next-i18next";
+import PageHead from "../../components/PageHead";
 
 const Admin = () => {
   const { t } = useTranslation("common");
@@ -56,6 +57,7 @@ const Admin = () => {
 
   return (
     <AdminProtected>
+      <PageHead title="Admin" />
       {fetchUsers()}
       {!!users && !!passwords && (
         <Center>

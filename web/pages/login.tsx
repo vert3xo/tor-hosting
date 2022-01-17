@@ -9,7 +9,7 @@ import {
   Center,
   Heading,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Axios } from "../utils/axiosUtil";
 import isServer from "../utils/isServer";
 import { useRouter } from "next/dist/client/router";
@@ -20,6 +20,7 @@ import { useAppDispatch } from "../redux/store";
 import { setToken } from "../redux/token";
 import { AxiosError } from "axios";
 import { useTranslation } from "next-i18next";
+import PageHead from "../components/PageHead";
 
 const Login = () => {
   const { t } = useTranslation("common");
@@ -38,6 +39,7 @@ const Login = () => {
 
   return (
     <div>
+      <PageHead title="Login" />
       <Navbar />
       <Center flexDir="column">
         <Heading mb={8}>{t("log-in")}</Heading>

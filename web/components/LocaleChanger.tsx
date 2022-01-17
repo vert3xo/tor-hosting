@@ -18,16 +18,18 @@ const LocaleChanger = () => {
         {router.locale}
       </MenuButton>
       <MenuList>
-        {router.locales!.map((locale, index) => (
-          <MenuItem
-            key={index}
-            onClick={() =>
-              router.push(router.pathname, router.pathname, { locale })
-            }
-          >
-            {locale}
-          </MenuItem>
-        ))}
+        {router
+          .locales!.filter((locale) => locale !== router.locale)
+          .map((locale, index) => (
+            <MenuItem
+              key={index}
+              onClick={() =>
+                router.push(router.pathname, router.pathname, { locale })
+              }
+            >
+              {locale}
+            </MenuItem>
+          ))}
       </MenuList>
     </Menu>
   );

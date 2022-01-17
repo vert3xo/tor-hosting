@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import isServer from "../../utils/isServer";
 import { useAppSelector } from "../../redux/store";
 import { useTranslation } from "next-i18next";
+import PageHead from "../../components/PageHead";
 
 const Post = () => {
   const { t } = useTranslation("common");
@@ -48,6 +49,7 @@ const Post = () => {
 
   return (
     <Protected>
+      <PageHead title="Post" />
       <Center flexDirection={"column"}>
         <Heading mb={8}>{t("create-post-heading")}</Heading>
         <Formik
