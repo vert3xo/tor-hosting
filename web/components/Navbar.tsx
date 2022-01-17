@@ -8,6 +8,7 @@ import ColorThemeChanger from "./ColorThemeChanger";
 import { Axios } from "../utils/axiosUtil";
 import { User } from "../types/userTypes";
 import { useTranslation } from "next-i18next";
+import LocaleChanger from "./LocaleChanger";
 
 const Navbar: FC = () => {
   const token = useAppSelector((state) => state.access_token.data);
@@ -43,6 +44,7 @@ const Navbar: FC = () => {
             <Link href="/blog">{t("blog")}</Link>
           </Button>
           <ColorThemeChanger />
+          <LocaleChanger />
         </Flex>
         <Spacer />
         <Flex mb={4}>

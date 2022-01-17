@@ -8,10 +8,12 @@
   "password-required": "Heslo je povinné!",
   "password-conf-match": "Heslá sa nezhodujú!",
   "password-conf-required": "Potvrdenie hesla je povinné!",
+  "invalid-creds-err": "Zadané údaje neboli správne!",
 
   "settings": "Nastavenia",
   "change-password": "Zmena hesla",
   "username": "Používateľské meno",
+  "name": "Meno",
   "password": "Heslo",
   "password-conf": "Potvrdenie hesla",
   "danger-zone": "Danger Zone",
@@ -20,6 +22,7 @@
   "log-in": "Prihlásenie",
   "registration": "Registrácia",
   "sign-in": "Prihlásiť sa",
+  "sign-up": "Zaregistrovať sa",
 
   "regenerate-address": "Znovu vygenerovať onion adresu",
   "choice-confirm": "Si si istý, že chceš pokračovať? Táto akcia sa nedá vrátiť!",
@@ -28,5 +31,21 @@
   "enabled": "Aktívne",
   "delete": "Vymazať",
   "new-pwd-placeholder": "Nové heslo",
-  "new-pwd-btn": "Zmeniť"
+  "new-pwd-btn": "Zmeniť",
+  "delete-btn": "Vymazať účet",
+  "crete-post-heading": "Vytvoriť príspevok",
+  "title": "Názov",
+  "post-body": "Obsah",
+  "post": "Príspevky",
+  "posts": "príspevkov",
+  "by": "napísal",
+
+  "no-posts-err": "Neboli nájdené žiadne príspevky",
+  "loading": "Načítavam...",
+  "error": "Nastala chyba!",
+
+  "no-post-err": "Tento príspevok neexistuje!",
+  "no-author-err": "Tento autor neexistuje!",
+
+  "delete-post-btn": "Vymazať príspevok"
 }

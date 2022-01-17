@@ -128,7 +128,7 @@ const Register = () => {
                 width={"100%"}
                 type="submit"
               >
-                Sign Up
+                {t("sign-up")}
               </Button>
             </Form>
           )}

@@ -6,5 +6,10 @@
   "sign-up": "Registrácia",
   "dashboard": "Ovládací panel",
   "admin": "Admin",
-  "log-out": "Odhlásiť sa"
+  "log-out": "Odhlásiť sa",
+
+  "main-site": "Späť na hlavnú stránku",
+  "posts": "Príspevky",
+  "create-post-btn": "Napísať príspevok",
+  "profile": "Profil"
 }

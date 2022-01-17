@@ -1,11 +1,15 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "./components/Navbar";
 import { Post } from "../../types/Post";
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Container, Heading, Text, Link, Flex } from "@chakra-ui/react";
 import { BsArrowRight } from "react-icons/bs";
+import { useTranslation } from "next-i18next";
 
 const Blog = () => {
+  const { t } = useTranslation("common");
   const { loading, error, data } = useQuery<{ posts: Post[] | null }>(gql`
     query GetPosts {
       posts {
@@ -24,7 +28,7 @@ const Blog = () => {
     return (
       <>
         <Navbar />
-        <p>Error</p>
+        <p>{t("error")}</p>
       </>
     );
   }
@@ -33,7 +37,7 @@ const Blog = () => {
     return (
       <>
         <Navbar />
-        <p>Loading...</p>
+        <p>{t("loading")}</p>
       </>
     );
   }
@@ -42,7 +46,7 @@ const Blog = () => {
     return (
       <>
         <Navbar />
-        <p>No posts available</p>
+        <p>{t("no-posts-err")}</p>
       </>
     );
   }
@@ -65,7 +69,7 @@ const Blog = () => {
                 </Link>
               </Heading>
               <Text>
-                by{" "}
+                {t("by")}{" "}
                 {post.authors!.map((author, index) => {
                   return (
                     <Link key={index} href={`/blog/authors/${author.id}`}>
@@ -82,3 +86,14 @@ const Blog = () => {
 };
 
 export default Blog;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

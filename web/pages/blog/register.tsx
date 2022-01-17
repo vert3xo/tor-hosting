@@ -1,3 +1,5 @@
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { gql, useMutation } from "@apollo/client";
 import {
   Center,
@@ -14,8 +16,10 @@ import * as Yup from "yup";
 import type { Register as RegisterType } from "../../types/Register";
 import isServer from "../../utils/isServer";
 import Navbar from "./components/Navbar";
+import { useTranslation } from "next-i18next";
 
 const Register = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
 
   const SignUpSchema = Yup.object().shape({
@@ -54,7 +58,7 @@ const Register = () => {
     <div>
       <Navbar />
       <Center flexDirection={"column"}>
-        <Heading mb={8}>Registration</Heading>
+        <Heading mb={8}>{t("registration")}</Heading>
         <Formik
           initialValues={{
             username: "",
@@ -76,7 +80,7 @@ const Register = () => {
           {(props) => (
             <Form style={{ width: "30%" }}>
               <FormControl mb={4} id="username">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t("username")}</FormLabel>
                 <Input
                   type="text"
                   name="username"
@@ -89,7 +93,7 @@ const Register = () => {
                 )}
               </FormControl>
               <FormControl mb={4} id="name">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t("name")}</FormLabel>
                 <Input
                   type="text"
                   name="name"
@@ -102,7 +106,7 @@ const Register = () => {
                 )}
               </FormControl>
               <FormControl mb={4} id="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <Input
                   type="password"
                   name="password"
@@ -115,7 +119,7 @@ const Register = () => {
                 )}
               </FormControl>
               <FormControl mb={4} id="password_confirm">
-                <FormLabel>Password confirmation</FormLabel>
+                <FormLabel>{t("password-conf")}</FormLabel>
                 <Input
                   type="password"
                   name="password_confirm"
@@ -143,7 +147,7 @@ const Register = () => {
                 width={"100%"}
                 type="submit"
               >
-                Sign Up
+                {t("sign-up")}
               </Button>
             </Form>
           )}
@@ -154,3 +158,14 @@ const Register = () => {
 };
 
 export default Register;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

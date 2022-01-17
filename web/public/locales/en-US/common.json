@@ -8,10 +8,12 @@
   "password-required": "Password is required!",
   "password-conf-match": "Passwords do not match!",
   "password-conf-required": "Password confirmation is required!",
+  "invalid-creds-err": "Invalid credentials provided!",
 
   "settings": "Settings",
   "change-password": "Change Password",
   "username": "Username",
+  "name": "Name",
   "password": "Password",
   "password-conf": "Password Confirmation",
   "danger-zone": "Danger Zone",
@@ -20,6 +22,7 @@
   "log-in": "Log In",
   "registration": "Registration",
   "sign-in": "Sign In",
+  "sign-up": "Sign Up",
 
   "regenerate-address": "Regenerate your onion address",
   "choice-confirm": "Are you sure? This can not be undone!",
@@ -29,5 +32,21 @@
   "delete": "Delete",
   "new-pwd-placeholder": "New password",
   "new-pwd-btn": "Change",
-  "delete-btn": "Delete account"
+  "delete-btn": "Delete account",
+
+  "crete-post-heading": "Create a post",
+  "title": "Title",
+  "post-body": "Post body",
+  "post": "Post",
+  "posts": "posts",
+  "by": "by",
+
+  "no-posts-err": "No posts available",
+  "loading": "Loading...",
+  "error": "An error occurred!",
+
+  "no-post-err": "This post does not exist!",
+  "no-author-err": "This author does not exist!",
+
+  "delete-post-btn": "Delete Post"
 }

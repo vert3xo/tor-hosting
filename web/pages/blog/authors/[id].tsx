@@ -1,3 +1,5 @@
+import { GetStaticPaths, GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import {
   Container,
@@ -16,8 +18,10 @@ import type { Author as AuthorType } from "../../../types/Author";
 import { User } from "../../../types/User";
 import isServer from "../../../utils/isServer";
 import Navbar from "../components/Navbar";
+import { useTranslation } from "next-i18next";
 
 const Author = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const token = useAppSelector((state) => state.blog_token.data);
   const [getAuthor, getAuthorData] = useLazyQuery<{
@@ -67,7 +71,7 @@ const Author = () => {
     return (
       <>
         <Navbar />
-        <Text>Loading...</Text>
+        <Text>{t("loading")}</Text>
       </>
     );
   }
@@ -76,7 +80,7 @@ const Author = () => {
     return (
       <>
         <Navbar />
-        <Text>{JSON.stringify(getAuthorData.error)}</Text>
+        <Text>{t("error")}</Text>
       </>
     );
   }
@@ -85,7 +89,7 @@ const Author = () => {
     return (
       <>
         <Navbar />
-        <Text>This author does not exist</Text>
+        <Text>{t("no-author-err")}</Text>
       </>
     );
   }
@@ -97,8 +101,7 @@ const Author = () => {
         <Container>
           <Heading>{getAuthorData.data.author.name}</Heading>
           <Text>
-            {getAuthorData.data.author!.posts!.length} post
-            {getAuthorData.data.author!.posts!.length > 1 ? "s" : ""}
+            {getAuthorData.data.author!.posts!.length} {t("posts")}
           </Text>
         </Container>
         <Divider mt={4} mb={4} w={"95%"} />
@@ -132,7 +135,7 @@ const Author = () => {
                               }
                             }}
                           >
-                            Delete Post
+                            {t("delete-post-btn")}
                           </Button>
                         )}
                     </Flex>
@@ -147,3 +150,21 @@ const Author = () => {
 };
 
 export default Author;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};

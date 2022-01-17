@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
   Button,
   Center,
@@ -17,8 +18,10 @@ import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import isServer from "../../utils/isServer";
 import { setToken } from "../../redux/blogToken";
+import { useTranslation } from "next-i18next";
 
 const Login = () => {
+  const { t } = useTranslation("common");
   const dispatch = useAppDispatch();
   const router = useRouter();
   const SignInSchema = Yup.object().shape({
@@ -59,7 +62,7 @@ const Login = () => {
           {(props) => (
             <Form style={{ width: "30%" }}>
               <FormControl mb={4} id="username">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t("username")}</FormLabel>
                 <Input
                   type="text"
                   name="username"
@@ -74,7 +77,7 @@ const Login = () => {
                 )}
               </FormControl>
               <FormControl mb={4} id="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <Input
                   type="password"
                   name="password"
@@ -90,8 +93,8 @@ const Login = () => {
               </FormControl>
               <FormControl>
                 <FormHelperText mb={4} color={"red"} fontSize={18}>
-                  {!!error && "An error occurred!"}
-                  {!loading && !!data && !data.login && "Invalid credentials!"}
+                  {!!error && t("error")}
+                  {!loading && !!data && !data.login && t("invalid-creds-err")}
                 </FormHelperText>
               </FormControl>
               <Button
@@ -100,7 +103,7 @@ const Login = () => {
                 width={"100%"}
                 type="submit"
               >
-                Sign In
+                {t("sign-in")}
               </Button>
             </Form>
           )}
@@ -111,3 +114,14 @@ const Login = () => {
 };
 
 export default Login;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};

@@ -6,5 +6,10 @@
   "sign-up": "Sign Up",
   "dashboard": "Dashboard",
   "admin": "Admin",
-  "log-out": "Log Out"
+  "log-out": "Log Out",
+
+  "main-site": "Back Home",
+  "posts": "Posts",
+  "create-post-btn": "Create a post",
+  "profile": "Profile"
 }

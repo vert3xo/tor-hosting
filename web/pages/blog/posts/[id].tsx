@@ -1,3 +1,5 @@
+import { GetStaticPaths, GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import type { Post as PostType } from "../../../types/Post";
@@ -12,8 +14,10 @@ import {
 } from "@chakra-ui/react";
 import Markdown from "../../../components/Markdown";
 import Navbar from "../components/Navbar";
+import { useTranslation } from "next-i18next";
 
 const Post = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
 
   const [getPost, { loading, error, data }] = useLazyQuery<{
@@ -44,7 +48,7 @@ const Post = () => {
     return (
       <>
         <Navbar />
-        <Text>Loading...</Text>
+        <Text>{t("loading")}</Text>
       </>
     );
   }
@@ -52,7 +56,7 @@ const Post = () => {
     return (
       <>
         <Navbar />
-        <Text>{JSON.stringify(error)}</Text>
+        <Text>{t("error")}</Text>
       </>
     );
   }
@@ -60,7 +64,7 @@ const Post = () => {
     return (
       <>
         <Navbar />
-        <Text>This post does not exist</Text>
+        <Text>{t("no-post-err")}</Text>
       </>
     );
   }
@@ -87,3 +91,21 @@ const Post = () => {
 };
 
 export default Post;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "navbar-main",
+      ])),
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
