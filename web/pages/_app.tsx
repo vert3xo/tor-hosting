@@ -12,6 +12,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { appWithTranslation } from "next-i18next";
 import PageHead from "../components/PageHead";
+import Footer from "../components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = new ApolloClient({

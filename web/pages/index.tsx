@@ -4,9 +4,11 @@ import Navbar from "../components/Navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PageHead from "../components/PageHead";
 import Image from "next/image";
-import { Button, Center, Heading, Text } from "@chakra-ui/react";
+import { Button, Center, Divider, Heading, Text } from "@chakra-ui/react";
 import { BsArrowDown } from "react-icons/bs";
 import { useRouter } from "next/router";
+import Footer from "../components/Footer";
+import ImageCta from "../components/ImageCta";
 
 const Home = () => {
   const { t } = useTranslation("common");
@@ -18,7 +20,9 @@ const Home = () => {
       <Navbar />
       <Center flexDir={"column"}>
         <Image src="/img/tor.png" width={200} height={200} />
-        <Heading mt={8}>{t("home-heading")}</Heading>
+        <Heading mt={8} mb={8}>
+          {t("home-heading")}
+        </Heading>
         <Text>{t("home-p1")}</Text>
         <Text mb={4}>{t("home-p2")}</Text>
         <BsArrowDown size={40} />
@@ -30,7 +34,21 @@ const Home = () => {
         >
           {t("btn-start")}
         </Button>
+        <Divider width={"90%"} my={8} />
       </Center>
+
+      <ImageCta src="/img/onion_url.png" width={566} height={126}>
+        <Text>{t("cta-text1")}</Text>
+      </ImageCta>
+      <ImageCta
+        src="/img/upload_content.png"
+        imageSide="right"
+        width={539}
+        height={123}
+      >
+        <Text>{t("cta-text2")}</Text>
+      </ImageCta>
+      <Footer />
     </div>
   );
 };
@@ -43,6 +61,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale as string, [
         "common",
         "navbar-main",
+        "footer",
       ])),
     },
   };
