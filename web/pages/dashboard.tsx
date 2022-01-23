@@ -32,6 +32,7 @@ import {
   Input,
   useToast,
   Link,
+  Box,
 } from "@chakra-ui/react";
 import FormData from "form-data";
 import { errorToast, successToast } from "../types/toast";
@@ -40,6 +41,7 @@ import OnionStatus from "../components/OnionStatus";
 import HostnameContainer from "../components/HostnameContainer";
 import { useTranslation } from "next-i18next";
 import PageHead from "../components/PageHead";
+import Footer from "../components/Footer";
 
 const Dashboard = () => {
   const { t } = useTranslation("common");
@@ -193,28 +195,31 @@ const Dashboard = () => {
           </AlertDialogOverlay>
         </AlertDialog>
         {fetchUserData(token)}
-        <Center paddingBottom={20}>
-          <Skeleton isLoaded={!!username}>
-            <Heading>
-              {t("welcome")} {username}
-            </Heading>
-          </Skeleton>
-        </Center>
-        <Center>
-          <SimpleGrid columns={2} spacing={10}>
-            <HostnameContainer
-              onClick={() => setAlertOpen(true)}
-              hostname={url}
-            />
-            <OnionStatus status={status} />
-            <UploadContent token={token} />
-            <Container centerContent>
-              <Button colorScheme={"blue"}>
-                <Link href="/settings">{t("settings")}</Link>
-              </Button>
-            </Container>
-          </SimpleGrid>
-        </Center>
+        <Box minH={"100vh"}>
+          <Center paddingBottom={20}>
+            <Skeleton isLoaded={!!username}>
+              <Heading>
+                {t("welcome")} {username}
+              </Heading>
+            </Skeleton>
+          </Center>
+          <Center>
+            <SimpleGrid columns={2} spacing={10}>
+              <HostnameContainer
+                onClick={() => setAlertOpen(true)}
+                hostname={url}
+              />
+              <OnionStatus status={status} />
+              <UploadContent token={token} />
+              <Container centerContent>
+                <Button colorScheme={"blue"}>
+                  <Link href="/settings">{t("settings")}</Link>
+                </Button>
+              </Container>
+            </SimpleGrid>
+          </Center>
+        </Box>
+        <Footer />
       </div>
     </Protected>
   );
@@ -231,6 +236,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         "upload-content",
         "onion-status",
         "hostname-data",
+        "footer",
       ])),
     },
   };
