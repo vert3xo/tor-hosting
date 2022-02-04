@@ -144,7 +144,7 @@ func deleteFromTo(filepath, from, to string) error {
 	if err != nil {
 		return err
 	}
-	file.WriteString(strings.Join(contents[:], ""))
+	file.WriteString(strings.Join(contents[:], "\n"))
 	defer file.Close()
 
 	return nil

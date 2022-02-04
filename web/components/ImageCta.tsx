@@ -7,7 +7,8 @@ const ImageCta: FC<{
   imageSide?: "left" | "right";
   width: number;
   height: number;
-}> = ({ children, src, imageSide, width, height }) => {
+  alt: string;
+}> = ({ children, src, imageSide, width, height, alt }) => {
   return (
     <Center mb={8}>
       {imageSide === "right" && (
@@ -16,7 +17,7 @@ const ImageCta: FC<{
         </Text>
       )}
       <Box boxShadow={"dark-lg"}>
-        <Image src={src} width={width} height={height} />
+        <Image src={src} width={width} height={height} alt={alt} />
       </Box>
       {(imageSide === "left" || !imageSide) && (
         <Text fontWeight={"bold"} ml={8}>

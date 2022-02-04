@@ -20,7 +20,7 @@ const Home = () => {
       <Navbar />
       <Box minH={"100vh"}>
         <Center flexDir={"column"}>
-          <Image src="/img/tor.png" width={200} height={200} />
+          <Image src="/img/tor.png" width={200} height={200} alt="Tor Logo" />
           <Heading mt={8} mb={8}>
             {t("home-heading")}
           </Heading>
@@ -38,7 +38,12 @@ const Home = () => {
           <Divider width={"90%"} my={8} />
         </Center>
 
-        <ImageCta src="/img/onion_url.png" width={566} height={126}>
+        <ImageCta
+          src="/img/onion_url.png"
+          width={566}
+          height={126}
+          alt="Address Regeneration"
+        >
           <Text>{t("cta-text1")}</Text>
         </ImageCta>
         <ImageCta
@@ -46,6 +51,7 @@ const Home = () => {
           imageSide="right"
           width={539}
           height={123}
+          alt="Content Upload"
         >
           <Text>{t("cta-text2")}</Text>
         </ImageCta>
