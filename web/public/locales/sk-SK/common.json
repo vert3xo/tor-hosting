@@ -38,6 +38,8 @@
 
   "enabled": "Aktívne",
   "delete": "Vymazať",
+  "delete-confirm": "Si si istý, že chceš tento účet vymazať?",
+  "continue-btn": "Pokračovať",
   "new-pwd-placeholder": "Nové heslo",
   "new-pwd-btn": "Zmeniť",
   "delete-btn": "Vymazať účet",
@@ -51,6 +53,7 @@
   "no-posts-err": "Neboli nájdené žiadne príspevky",
   "loading": "Načítavam...",
   "error": "Nastala chyba!",
+  "delete-failed": "Nepodarilo sa vymazať používateľa",
 
   "no-post-err": "Tento príspevok neexistuje!",
   "no-author-err": "Tento autor neexistuje!",

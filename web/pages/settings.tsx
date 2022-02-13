@@ -24,6 +24,7 @@ import isServer from "../utils/isServer";
 import * as Yup from "yup";
 import { useTranslation } from "next-i18next";
 import PageHead from "../components/PageHead";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 const Settings = () => {
   const token = useAppSelector((state) => state.access_token);
@@ -31,6 +32,8 @@ const Settings = () => {
   const { push } = useRouter();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const onDialogClose = () => setDialogOpen(false);
   const { t } = useTranslation("common");
 
   const passwordChangeSchema = Yup.object().shape({
@@ -44,6 +47,32 @@ const Settings = () => {
 
   return (
     <Protected>
+      <ConfirmationDialog
+        isOpen={dialogOpen}
+        onClose={onDialogClose}
+        onConfirm={() => {
+          if (!isServer) {
+            Axios.delete("/user", {
+              headers: {
+                Authorization: `Bearer ${token.data}`,
+              },
+            })
+              .then(() => {
+                toast({
+                  ...successToast,
+                  description: "Account has been deleted.",
+                });
+                push("/logout");
+              })
+              .catch((e) => {
+                toast({
+                  ...errorToast,
+                  description: "Account could not be deleted.",
+                });
+              });
+          }
+        }}
+      />
       <PageHead title="Settings" />
       <Container>
         <Center flexDir={"column"}>
@@ -136,26 +165,7 @@ const Settings = () => {
                 colorScheme={"red"}
                 size={"sm"}
                 onClick={(e) => {
-                  if (!isServer) {
-                    Axios.delete("/user", {
-                      headers: {
-                        Authorization: `Bearer ${token.data}`,
-                      },
-                    })
-                      .then(() => {
-                        toast({
-                          ...successToast,
-                          description: "Account has been deleted.",
-                        });
-                        push("/logout");
-                      })
-                      .catch((e) => {
-                        toast({
-                          ...errorToast,
-                          description: "Account could not be deleted.",
-                        });
-                      });
-                  }
+                  setDialogOpen(true);
                 }}
               >
                 {t("delete-account")}
@@ -176,6 +186,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale as string, [
         "common",
         "navbar-main",
+        "confirmation-dialog",
       ])),
     },
   };

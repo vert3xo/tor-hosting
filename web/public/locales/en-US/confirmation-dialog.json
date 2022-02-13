@@ -1,0 +1,6 @@
+{
+  "alert-header": "Confirmation",
+  "alert-body": "Are you sure? You can't undo this action.",
+  "btn-cancel": "Cancel",
+  "btn-continue": "Continue"
+}

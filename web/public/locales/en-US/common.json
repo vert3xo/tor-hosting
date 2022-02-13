@@ -38,6 +38,8 @@
 
   "enabled": "Enabled",
   "delete": "Delete",
+  "delete-confirm": "Are you sure you want to delete this account?",
+  "continue-btn": "Continue",
   "new-pwd-placeholder": "New password",
   "new-pwd-btn": "Change",
   "delete-btn": "Delete account",
@@ -52,6 +54,7 @@
   "no-posts-err": "No posts available",
   "loading": "Loading...",
   "error": "An error occurred!",
+  "delete-failed": "Could not delete user",
 
   "no-post-err": "This post does not exist!",
   "no-author-err": "This author does not exist!",

@@ -14,6 +14,13 @@ import {
   FormControl,
   Input,
   Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -24,6 +31,8 @@ import { Response, User } from "../../types/userTypes";
 import isServer from "../../utils/isServer";
 import { useTranslation } from "next-i18next";
 import PageHead from "../../components/PageHead";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
+import { errorToast } from "../../types/toast";
 
 const Admin = () => {
   const { t } = useTranslation("common");
@@ -126,20 +135,41 @@ const Admin = () => {
                         </FormControl>
                       </Td>
                       <Td>
-                        <Button
-                          colorScheme={"red"}
-                          onClick={() => {
-                            AxiosAdmin.delete(`/user/${user.Username}`)
-                              .then((res) => {
-                                if (!isServer) {
-                                  router.reload();
-                                }
-                              })
-                              .catch((e) => {});
-                          }}
-                        >
-                          {t("delete-account")}
-                        </Button>
+                        <Popover>
+                          <PopoverTrigger>
+                            <Button colorScheme={"red"}>
+                              {t("delete-account")}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>{t("delete-confirm")}</PopoverHeader>
+                            <PopoverBody>
+                              <Button
+                                colorScheme={"red"}
+                                onClick={() => {
+                                  AxiosAdmin.delete(`/user/${user.Username}`)
+                                    .then((res) => {
+                                      if (!isServer) {
+                                        router.reload();
+                                      }
+                                    })
+                                    .catch((e) => {
+                                      toast({
+                                        ...errorToast,
+                                        description: `${t("delete-failed")} ${
+                                          user.Username
+                                        }`,
+                                      });
+                                    });
+                                }}
+                              >
+                                {t("continue-btn")}
+                              </Button>
+                            </PopoverBody>
+                          </PopoverContent>
+                        </Popover>
                       </Td>
                     </Tr>
                   );
