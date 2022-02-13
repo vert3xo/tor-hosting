@@ -1,9 +1,14 @@
 CREATE TABLE `hosting.users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(3) DEFAULT NULL,
+  `updated_at` datetime(3) DEFAULT NULL,
+  `deleted_at` datetime(3) DEFAULT NULL,
+  `username` longtext DEFAULT NULL,
+  `password` longtext DEFAULT NULL,
+  `address` longtext DEFAULT NULL,
+  `status` bigint(20) DEFAULT 0,
+  `admin` tinyint(1) DEFAULT NULL,
+  `disabled` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_users_deleted_at` (`deleted_at`)
 )
